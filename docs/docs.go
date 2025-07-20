@@ -178,7 +178,10 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Product"
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/models.Product"
+                                }
                             }
                         }
                     },

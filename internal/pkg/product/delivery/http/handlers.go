@@ -150,7 +150,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 // @Param sort_dir query string false "Направление сортировки: asc или desc (по умолчанию desc)"
 // @Param min_price query number false "Минимальная цена"
 // @Param max_price query number false "Максимальная цена"
-// @Success 200 {array} models.Product
+// @Success 200 {array} []models.Product
 // @Failure 500 {object} models.ErrorResponse "Ошибка сервера"
 // @Router /api/products [get]
 func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
