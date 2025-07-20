@@ -9,7 +9,6 @@ require (
 	github.com/jackc/pgtype v1.14.4
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/mailru/easyjson v0.9.0
-	github.com/rs/cors v1.11.1
 	github.com/satori/uuid v1.2.0
 	github.com/swaggo/http-swagger v1.3.4
 	github.com/swaggo/swag v1.16.5
