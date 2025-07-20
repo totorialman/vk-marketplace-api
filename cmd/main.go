@@ -13,7 +13,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/rs/cors"
 	httpSwagger "github.com/swaggo/http-swagger"
 	_ "github.com/totorialman/vk-marketplace-api/docs"
 	authHandler "github.com/totorialman/vk-marketplace-api/internal/pkg/auth/delivery/http"
@@ -46,7 +45,7 @@ func initDB(logger *slog.Logger) (*pgxpool.Pool, error) {
 // @title VK Marketplace API
 // @version 1.0
 // @description API для маркетплейса ВК
-// @host localhost:8080
+// @host 62.60.186.2:8080
 // @BasePath /
 
 // @securityDefinitions.apikey MarketplaceJWT
@@ -102,16 +101,9 @@ func main() {
 
 	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
-	corsHandler := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"*"},
-		AllowCredentials: false,
-	}).Handler(r)
-
-	http.Handle("/", corsHandler)
+	http.Handle("/", r)
 	srv := http.Server{
-		Handler:           corsHandler,
+		Handler:           r,
 		Addr:              ":8080",
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
