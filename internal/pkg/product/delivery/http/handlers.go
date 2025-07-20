@@ -24,7 +24,7 @@ func CreateProductHandler(uc product.ProductUsecase) *ProductHandler {
 	return &ProductHandler{uc: uc}
 }
 
-const maxImageSize = 5 * 1024 * 1024 
+const maxImageSize = 5 * 1024 * 1024
 
 func isValidImageURL(url string) bool {
 	ext := strings.ToLower(path.Ext(url))
@@ -150,7 +150,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 // @Param sort_dir query string false "Направление сортировки: asc или desc (по умолчанию desc)"
 // @Param min_price query number false "Минимальная цена"
 // @Param max_price query number false "Максимальная цена"
-// @Success 200 {array} []models.Product
+// @Success 200 {array} models.Product
 // @Failure 500 {object} models.ErrorResponse "Ошибка сервера"
 // @Router /api/products [get]
 func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
@@ -190,6 +190,10 @@ func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 		log.LogHandlerError(logger, err, http.StatusInternalServerError)
 		utils.SendError(w, "не удалось получить список объявлений", http.StatusInternalServerError)
 		return
+	}
+
+	if products == nil {
+		products = []models.Product{}
 	}
 
 	userID, authorized := r.Context().Value("user_id").(uuid.UUID)

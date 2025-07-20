@@ -161,9 +161,7 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/models.Product'
-              type: array
+              $ref: '#/definitions/models.Product'
             type: array
         "500":
           description: Ошибка сервера
