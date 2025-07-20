@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "8edad659-45cd-48a2-a681-3da2929f62a1",
+		"name": "(public) vk-marketplace-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25346085"
+	},
+	"item": [
+		{
+			"name": "62.60.186.2:8080/api/auth/signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "MarketplaceJWT",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTMxMjgzNzIsImlkIjoiODQ2MGIxMDctZjBmMy00ODhlLTkwMGQtNjQ5MDFjZGM3ODYzIiwibG9naW4iOiJ1c2VyMTAifQ.lIw-PCrCqA8RpNRJy_HTBdZubEIruMeVR78J_OSIaFk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"user10\",\r\n    \"password\": \"Password2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "62.60.186.2:8080/api/auth/signup",
+					"host": [
+						"62",
+						"60",
+						"186",
+						"2"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "62.60.186.2:8080/api/auth/signin",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "MarketplaceJWT",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTMxMjgzNzIsImlkIjoiODQ2MGIxMDctZjBmMy00ODhlLTkwMGQtNjQ5MDFjZGM3ODYzIiwibG9naW4iOiJ1c2VyMTAifQ.lIw-PCrCqA8RpNRJy_HTBdZubEIruMeVR78J_OSIaFk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"user10\",\r\n    \"password\": \"Password2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "62.60.186.2:8080/api/auth/signin",
+					"host": [
+						"62",
+						"60",
+						"186",
+						"2"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "62.60.186.2:8080/api/products",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "MarketplaceJWT",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHiOjE3NTMxMzU2MTgsImlkIjoiODQ2MGIxMDctZjBmMy00ODhlLTkwMGQtNjQ5MDFjZGM3ODYzIiwibG9naW4iOiJ1c2VyMTAifQ.9eKhcLVpN0V7POheUNyZ18sEi4sdcwpLHbJnO0qQwV",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Продам ноутбук\",\r\n  \"description\": \"Хорошее состояние, без царапин\",\r\n  \"image_url\": \"https://go.dev/images/learn/introducing-go-book.png\",\r\n  \"price\": 25000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "62.60.186.2:8080/api/products",
+					"host": [
+						"62",
+						"60",
+						"186",
+						"2"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "62.60.186.2:8080/api/products?page=1&limit=10&sort_by=created_at&sort_dir=desc&min_price=0&max_price=100000",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "MarketplaceJWT",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.yJleHAiOjE3NTMxMzU2MTgsImlkIjoiODQ2MGIxMDctZjBmMy00ODhlLTkwMGQtNjQ5MDFjZGM3ODYzIiwibG9naW4iOiJ1c2VyMTAifQ.9eKhcLVpN0V7POheUNyZ18sEi4sdcwpLHbJnO0qQwVI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "62.60.186.2:8080/api/products?page=1&limit=10&sort_by=created_at&sort_dir=desc&min_price=0&max_price=100000",
+					"host": [
+						"62",
+						"60",
+						"186",
+						"2"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort_by",
+							"value": "created_at"
+						},
+						{
+							"key": "sort_dir",
+							"value": "desc"
+						},
+						{
+							"key": "min_price",
+							"value": "0"
+						},
+						{
+							"key": "max_price",
+							"value": "100000"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
