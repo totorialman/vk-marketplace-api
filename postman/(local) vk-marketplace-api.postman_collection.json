@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "f1f4697e-8ec2-4e4e-bbfd-ecfb8fcf83f4",
+		"name": "(local) vk-marketplace-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25346085"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/api/auth/signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"user1\",\r\n    \"password\": \"Password2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/auth/signin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"user1\",\r\n    \"password\": \"Password2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/signin",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MarketplaceJWT",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTMxMjU5ODEsImlkIjoiMDA5YTU0NzQtY2VlYy00Mzc0LThlZTktNDJkMjAxYTMzZGZjIiwibG9naW4iOiJ1c2VyMSJ9.2PpN5r3mSsybrKasvcvrrvhQlNF4u0ZShS7l_Q8hZU8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Продам ноутбук\",\r\n  \"description\": \"Хорошее состояние, без царапин\",\r\n  \"image_url\": \"https://go.dev/images/learn/introducing-go-book.png\",\r\n  \"price\": 25000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/products?page=1&limit=10&sort_by=created_at&sort_dir=desc&min_price=0&max_price=100000",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "MarketplaceJWT",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTMxMjU5ODEsImlkIjoiMDA5YTU0NzQtY2VlYy00Mzc0LThlZTktNDJkMjAxYTMzZGZjIiwibG9naW4iOiJ1c2VyMSJ9.2PpN5r3mSsybrKasvcvrrvhQlNF4u0ZShS7l_Q8hZU8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/products?page=1&limit=10&sort_by=created_at&sort_dir=desc&min_price=0&max_price=100000",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort_by",
+							"value": "created_at"
+						},
+						{
+							"key": "sort_dir",
+							"value": "desc"
+						},
+						{
+							"key": "min_price",
+							"value": "0"
+						},
+						{
+							"key": "max_price",
+							"value": "100000"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
