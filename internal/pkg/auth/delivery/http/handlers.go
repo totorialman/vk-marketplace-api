@@ -28,7 +28,7 @@ func (h *AuthHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLoggerFromContext(r.Context()).With(slog.String("func", log.GetFuncName()))
 
 	_, ok := r.Context().Value("user_id").(uuid.UUID)
-	if !ok {
+	if ok {
 		log.LogHandlerError(logger, fmt.Errorf("вы уже авторизованы"), http.StatusUnauthorized)
 		utils.SendError(w, "вы уже авторизованы", http.StatusUnauthorized)
 		return
