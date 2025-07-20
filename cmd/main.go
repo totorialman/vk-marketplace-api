@@ -13,16 +13,17 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/rs/cors"
+	httpSwagger "github.com/swaggo/http-swagger"
+	_ "github.com/totorialman/vk-marketplace-api/docs"
 	authHandler "github.com/totorialman/vk-marketplace-api/internal/pkg/auth/delivery/http"
 	authRepo "github.com/totorialman/vk-marketplace-api/internal/pkg/auth/repo"
 	authUsecase "github.com/totorialman/vk-marketplace-api/internal/pkg/auth/usecase"
+	middleware "github.com/totorialman/vk-marketplace-api/internal/pkg/middleware/auth"
+	"github.com/totorialman/vk-marketplace-api/internal/pkg/middleware/log"
 	productHandler "github.com/totorialman/vk-marketplace-api/internal/pkg/product/delivery/http"
 	productRepo "github.com/totorialman/vk-marketplace-api/internal/pkg/product/repo"
 	productUsecase "github.com/totorialman/vk-marketplace-api/internal/pkg/product/usecase"
-	middleware "github.com/totorialman/vk-marketplace-api/internal/pkg/middleware/auth"
-	"github.com/totorialman/vk-marketplace-api/internal/pkg/middleware/log"
-	_ "github.com/totorialman/vk-marketplace-api/docs" 
-    httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func initDB(logger *slog.Logger) (*pgxpool.Pool, error) {
@@ -101,9 +102,16 @@ func main() {
 
 	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
-	http.Handle("/", r)
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: false,
+	}).Handler(r)
+
+	http.Handle("/", corsHandler)
 	srv := http.Server{
-		Handler:           r,
+		Handler:           corsHandler,
 		Addr:              ":8080",
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
