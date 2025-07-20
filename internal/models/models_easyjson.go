@@ -115,13 +115,6 @@ func easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels1(i
 			}
 		case "login":
 			out.Login = string(in.String())
-		case "password":
-			if in.IsNull() {
-				in.Skip()
-				out.PasswordHash = nil
-			} else {
-				out.PasswordHash = in.Bytes()
-			}
 		case "MarketplaceJWT":
 			out.MarketplaceJWT = string(in.String())
 		default:
@@ -147,11 +140,6 @@ func easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels1(o
 		const prefix string = ",\"login\":"
 		out.RawString(prefix)
 		out.String(string(in.Login))
-	}
-	if len(in.PasswordHash) != 0 {
-		const prefix string = ",\"password\":"
-		out.RawString(prefix)
-		out.Base64Bytes(in.PasswordHash)
 	}
 	{
 		const prefix string = ",\"MarketplaceJWT\":"
@@ -184,7 +172,94 @@ func (v *User) UnmarshalJSON(data []byte) error {
 func (v *User) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels1(l, v)
 }
-func easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(in *jlexer.Lexer, out *Product) {
+func easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(in *jlexer.Lexer, out *ProductReq) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "title":
+			out.Title = string(in.String())
+		case "description":
+			out.Description = string(in.String())
+		case "image_url":
+			out.ImageURL = string(in.String())
+		case "price":
+			out.Price = float64(in.Float64())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(out *jwriter.Writer, in ProductReq) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"title\":"
+		out.RawString(prefix[1:])
+		out.String(string(in.Title))
+	}
+	{
+		const prefix string = ",\"description\":"
+		out.RawString(prefix)
+		out.String(string(in.Description))
+	}
+	{
+		const prefix string = ",\"image_url\":"
+		out.RawString(prefix)
+		out.String(string(in.ImageURL))
+	}
+	{
+		const prefix string = ",\"price\":"
+		out.RawString(prefix)
+		out.Float64(float64(in.Price))
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v ProductReq) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v ProductReq) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *ProductReq) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *ProductReq) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(l, v)
+}
+func easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels3(in *jlexer.Lexer, out *Product) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -235,7 +310,7 @@ func easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(i
 		in.Consumed()
 	}
 }
-func easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(out *jwriter.Writer, in Product) {
+func easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels3(out *jwriter.Writer, in Product) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -285,23 +360,89 @@ func easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(o
 // MarshalJSON supports json.Marshaler interface
 func (v Product) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(&w, v)
+	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels3(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Product) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels2(w, v)
+	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels3(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Product) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(&r, v)
+	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels3(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Product) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels2(l, v)
+	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels3(l, v)
+}
+func easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels4(in *jlexer.Lexer, out *ErrorResponse) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "error":
+			out.Error = string(in.String())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels4(out *jwriter.Writer, in ErrorResponse) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"error\":"
+		out.RawString(prefix[1:])
+		out.String(string(in.Error))
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v ErrorResponse) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels4(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v ErrorResponse) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonD2b7633eEncodeGithubComTotorialmanVkMarketplaceApiInternalModels4(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *ErrorResponse) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels4(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *ErrorResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonD2b7633eDecodeGithubComTotorialmanVkMarketplaceApiInternalModels4(l, v)
 }

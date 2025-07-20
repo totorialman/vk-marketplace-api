@@ -1,0 +1,215 @@
+basePath: /
+definitions:
+  models.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  models.Product:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      is_mine:
+        type: boolean
+      price:
+        type: number
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.ProductReq:
+    properties:
+      description:
+        type: string
+      image_url:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  models.User:
+    properties:
+      MarketplaceJWT:
+        type: string
+      id:
+        type: string
+      login:
+        type: string
+    type: object
+  models.UserReq:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API для маркетплейса ВК
+  title: VK Marketplace API
+  version: "1.0"
+paths:
+  /api/auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Аутентифицирует пользователя по логину и паролю
+      parameters:
+      - description: Данные пользователя (логин, пароль)
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Неверный логин или пользователь не найден
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Неверный пароль
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Авторизация пользователя
+      tags:
+      - auth
+  /api/auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя по логину и паролю
+      parameters:
+      - description: Данные пользователя (логин, пароль)
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Неверный формат логина или пароля / Пользователь уже существует
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Пользователь уже авторизован
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Регистрация пользователя
+      tags:
+      - auth
+  /api/products:
+    get:
+      description: Возвращает список объявлений с фильтрацией и сортировкой
+      parameters:
+      - description: Номер страницы (по умолчанию 1)
+        in: query
+        name: page
+        type: integer
+      - description: Количество на странице (по умолчанию 10)
+        in: query
+        name: limit
+        type: integer
+      - description: 'Поле сортировки: created_at или price (по умолчанию created_at)'
+        in: query
+        name: sort_by
+        type: string
+      - description: 'Направление сортировки: asc или desc (по умолчанию desc)'
+        in: query
+        name: sort_dir
+        type: string
+      - description: Минимальная цена
+        in: query
+        name: min_price
+        type: number
+      - description: Максимальная цена
+        in: query
+        name: max_price
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Product'
+            type: array
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - MarketplaceJWT: []
+      summary: Получение списка объявлений
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Создаёт новое объявление (доступно только авторизованным)
+      parameters:
+      - description: Данные объявления
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: 'Неверный формат данных '
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Неавторизованный доступ
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - MarketplaceJWT: []
+      summary: Размещение нового объявления
+      tags:
+      - products
+securityDefinitions:
+  MarketplaceJWT:
+    in: header
+    name: MarketplaceJWT
+    type: apiKey
+swagger: "2.0"

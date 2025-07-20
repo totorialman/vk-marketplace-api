@@ -21,6 +21,8 @@ import (
 	productUsecase "github.com/totorialman/vk-marketplace-api/internal/pkg/product/usecase"
 	middleware "github.com/totorialman/vk-marketplace-api/internal/pkg/middleware/auth"
 	"github.com/totorialman/vk-marketplace-api/internal/pkg/middleware/log"
+	_ "github.com/totorialman/vk-marketplace-api/docs" 
+    httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func initDB(logger *slog.Logger) (*pgxpool.Pool, error) {
@@ -40,6 +42,15 @@ func initDB(logger *slog.Logger) (*pgxpool.Pool, error) {
 	return pool, nil
 }
 
+// @title VK Marketplace API
+// @version 1.0
+// @description API для маркетплейса ВК
+// @host localhost:8080
+// @BasePath /
+
+// @securityDefinitions.apikey MarketplaceJWT
+// @in header
+// @name MarketplaceJWT
 func main() {
 	logFile, err := os.OpenFile(os.Getenv("MAIN_LOG_FILE"), os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
@@ -87,6 +98,8 @@ func main() {
 		products.HandleFunc("", productHandler.Create).Methods("POST")
 		products.HandleFunc("", productHandler.List).Methods("GET")
 	}
+
+	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
 	http.Handle("/", r)
 	srv := http.Server{

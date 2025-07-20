@@ -10,7 +10,7 @@ import (
 type User struct {
 	Id             uuid.UUID `json:"id"`
 	Login          string    `json:"login"`
-	PasswordHash   []byte    `json:"password,omitempty"`
+	PasswordHash   []byte    `json:"-"`
 	MarketplaceJWT string    `json:"MarketplaceJWT"`
 }
 
@@ -28,4 +28,8 @@ func (u *UserReq) Sanitize() {
 func (u *User) Sanitize() {
 	u.Login = html.EscapeString(u.Login)
 	u.MarketplaceJWT = html.EscapeString(u.MarketplaceJWT)
+}
+
+type ErrorResponse struct {
+    Error string `json:"error"`
 }

@@ -24,6 +24,18 @@ func CreateAuthHandler(uc auth.AuthUsecase) *AuthHandler {
 	return &AuthHandler{uc: uc, secret: os.Getenv("JWT_SECRET")}
 }
 
+// SignUp godoc
+// @Summary Регистрация пользователя
+// @Description Регистрирует нового пользователя по логину и паролю
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param input body models.UserReq true "Данные пользователя (логин, пароль)"
+// @Success 200 {object} models.User
+// @Failure 400 {object} models.ErrorResponse "Неверный формат логина или пароля / Пользователь уже существует"
+// @Failure 401 {object} models.ErrorResponse "Пользователь уже авторизован"
+// @Failure 500 {object} models.ErrorResponse "Ошибка сервера"
+// @Router /api/auth/signup [post]
 func (h *AuthHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLoggerFromContext(r.Context()).With(slog.String("func", log.GetFuncName()))
 
@@ -71,6 +83,18 @@ func (h *AuthHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	log.LogHandlerInfo(logger, "Success", http.StatusOK)
 }
 
+// SignIn godoc
+// @Summary Авторизация пользователя
+// @Description Аутентифицирует пользователя по логину и паролю
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param input body models.UserReq true "Данные пользователя (логин, пароль)"
+// @Success 200 {object} models.User
+// @Failure 400 {object} models.ErrorResponse "Неверный логин или пользователь не найден"
+// @Failure 401 {object} models.ErrorResponse "Неверный пароль"
+// @Failure 500 {object} models.ErrorResponse "Ошибка сервера"
+// @Router /api/auth/signin [post]
 func (h *AuthHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLoggerFromContext(r.Context()).With(slog.String("func", log.GetFuncName()))
 

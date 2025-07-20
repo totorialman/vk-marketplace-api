@@ -66,6 +66,19 @@ func validateImage(url string) error {
 	return nil
 }
 
+// Create godoc
+// @Summary Размещение нового объявления
+// @Description Создаёт новое объявление (доступно только авторизованным)
+// @Tags products
+// @Security MarketplaceJWT
+// @Accept json
+// @Produce json
+// @Param input body models.ProductReq true "Данные объявления"
+// @Success 200 {object} models.Product
+// @Failure 400 {object} models.ErrorResponse "Неверный формат данных "
+// @Failure 401 {object} models.ErrorResponse "Неавторизованный доступ"
+// @Failure 500 {object} models.ErrorResponse "Ошибка сервера"
+// @Router /api/products [post]
 func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLoggerFromContext(r.Context()).With(slog.String("func", log.GetFuncName()))
 
@@ -76,7 +89,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req models.Product
+	var req models.ProductReq
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		log.LogHandlerError(logger, fmt.Errorf("ошибка парсинга JSON: %w", err), http.StatusBadRequest)
 		utils.SendError(w, "Ошибка парсинга JSON", http.StatusBadRequest)
@@ -106,7 +119,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	req.UserID = userID
 
-	product, err := h.uc.Create(r.Context(), &req)
+	product, err := h.uc.Create(r.Context(), req)
 	if err != nil {
 		log.LogHandlerError(logger, err, http.StatusInternalServerError)
 		utils.SendError(w, "не удалось создать объявление", http.StatusInternalServerError)
@@ -125,6 +138,21 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	log.LogHandlerInfo(logger, "Success", http.StatusOK)
 }
 
+// List godoc
+// @Summary Получение списка объявлений
+// @Description Возвращает список объявлений с фильтрацией и сортировкой
+// @Tags products
+// @Security MarketplaceJWT
+// @Produce json
+// @Param page query int false "Номер страницы (по умолчанию 1)"
+// @Param limit query int false "Количество на странице (по умолчанию 10)"
+// @Param sort_by query string false "Поле сортировки: created_at или price (по умолчанию created_at)"
+// @Param sort_dir query string false "Направление сортировки: asc или desc (по умолчанию desc)"
+// @Param min_price query number false "Минимальная цена"
+// @Param max_price query number false "Максимальная цена"
+// @Success 200 {array} models.Product
+// @Failure 500 {object} models.ErrorResponse "Ошибка сервера"
+// @Router /api/products [get]
 func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 	logger := log.GetLoggerFromContext(r.Context()).With(slog.String("func", log.GetFuncName()))
 

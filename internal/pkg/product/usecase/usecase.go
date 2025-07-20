@@ -17,7 +17,7 @@ func CreateProductUsecase(repo product.ProductRepo) *ProductUsecase {
 	return &ProductUsecase{repo: repo}
 }
 
-func (u *ProductUsecase) Create(ctx context.Context, product *models.Product) (*models.Product, error) {
+func (u *ProductUsecase) Create(ctx context.Context, product models.ProductReq) (models.Product, error) {
 	logger := log.GetLoggerFromContext(ctx).With(slog.String("func", log.GetFuncName()))
 
 	logger.Info("Successful")

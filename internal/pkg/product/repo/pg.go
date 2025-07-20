@@ -29,18 +29,25 @@ func CreateProductRepo(db pgxtype.Querier) *ProductRepo {
 	return &ProductRepo{db: db}
 }
 
-func (r *ProductRepo) Create(ctx context.Context, product *models.Product) (*models.Product, error) {
-	product.Id = uuid.NewV4()
-	product.Sanitize()
-	err := r.db.QueryRow(ctx, createProduct,
-		product.Id, product.Title, product.Description, product.ImageURL, product.Price, product.UserID,
-	).Scan(&product.CreatedAt)
-
-	if err != nil {
-		return nil, err
+func (r *ProductRepo) Create(ctx context.Context, product models.ProductReq) (models.Product, error) {
+	newProduct := models.Product{
+		Id: uuid.NewV4(),
+		Title: product.Title,
+		Description: product.Description,
+		ImageURL: product.ImageURL,
+		Price: product.Price,
+		UserID: product.UserID,
 	}
 
-	return product, nil
+	newProduct.Sanitize()
+	err := r.db.QueryRow(ctx, createProduct,
+		newProduct.Id, newProduct.Title, newProduct.Description, newProduct.ImageURL, newProduct.Price, newProduct.UserID,
+	).Scan(&newProduct.CreatedAt)
+	if err != nil {
+		return models.Product{}, err
+	}
+
+	return newProduct, nil
 }
 
 func (r *ProductRepo) List(ctx context.Context, page int, limit int, sortBy string, sortDir string, minPrice float64, maxPrice float64) ([]models.Product, error) {

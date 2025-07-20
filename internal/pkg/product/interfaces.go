@@ -7,12 +7,12 @@ import (
 )
 
 type ProductUsecase interface {
-	Create(ctx context.Context, ad *models.Product) (*models.Product, error)
+	Create(ctx context.Context, product models.ProductReq) (models.Product, error)
 	List(ctx context.Context, page, limit int, sortBy, sortDir string, minPrice, maxPrice float64) ([]models.Product, error)
 }
 
 type ProductRepo interface {
-	Create(ctx context.Context, ad *models.Product) (*models.Product, error)
+	Create(ctx context.Context, product models.ProductReq) (models.Product, error)
 	List(ctx context.Context, page, limit int, sortBy, sortDir string, minPrice, maxPrice float64) ([]models.Product, error)
 }
 
