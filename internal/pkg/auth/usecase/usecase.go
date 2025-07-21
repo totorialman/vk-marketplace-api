@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"crypto/rand"
-	"errors"
 	"log/slog"
 	"os"
 	"strings"
@@ -111,8 +110,8 @@ func (uc *AuthUsecase) SignIn(ctx context.Context, data models.UserReq) (models.
 	}
 
 	if !checkPassword(user.PasswordHash, data.Password) {
-		logger.Error(errors.New("неверный логин или пароль").Error())
-		return models.User{}, errors.New("неверный логин или пароль")
+		logger.Error(auth.ErrInvalidCredentials.Error())
+		return models.User{}, auth.ErrInvalidCredentials
 	}
 
 	token, err := generateToken(user.Login, user.Id)
