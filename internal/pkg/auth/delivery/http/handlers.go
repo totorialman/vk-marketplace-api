@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mailru/easyjson"
 	"github.com/satori/uuid"
 	"github.com/totorialman/vk-marketplace-api/internal/models"
 	"github.com/totorialman/vk-marketplace-api/internal/pkg/auth"
@@ -71,7 +70,7 @@ func (h *AuthHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := easyjson.Marshal(user)
+	data, err := json.Marshal(user)
 	if err != nil {
 		log.LogHandlerError(logger, fmt.Errorf("ошибка маршалинга: %w", err), http.StatusInternalServerError)
 		utils.SendError(w, "Ошибка сервера", http.StatusInternalServerError)
@@ -123,7 +122,7 @@ func (h *AuthHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := easyjson.Marshal(user)
+	data, err := json.Marshal(user)
 	if err != nil {
 		log.LogHandlerError(logger, fmt.Errorf("ошибка маршалинга: %w", err), http.StatusInternalServerError)
 		utils.SendError(w, "Ошибка сервера", http.StatusInternalServerError)

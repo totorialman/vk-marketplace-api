@@ -155,8 +155,7 @@ func (uc *AuthUsecase) SignUp(ctx context.Context, data models.UserReq) (models.
 	}
 	newUser.Sanitize()
 
-	err := uc.repo.CreateUser(ctx, newUser)
-	if err != nil {
+	if err := uc.repo.CreateUser(ctx, newUser); err != nil {
 		logger.Error(err.Error())
 		return models.User{}, auth.ErrCreatingUser
 	}
